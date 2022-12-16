@@ -9,8 +9,6 @@ namespace FinanceFinder
 {
     public class FinanceFinder
     {
-        // BIGTODO: Might be better/easier to just show the entire line, ask for a name and category they'd like (and maintain those).
-        // Then display the category as the 2nd to last column in the line right before the amount. So you can still see all the details.
         public static void Main()
         {
             Statement statement = new Statement();

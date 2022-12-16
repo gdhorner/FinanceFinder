@@ -120,6 +120,8 @@ namespace FinanceFinder
             item = new();
         }
 
+        // BIGTODO: Might be better/easier to just show the entire line, ask for a name and category they'd like (and maintain those).
+        // Then display the category as the 2nd to last column in the line right before the amount. So you can still see all the details.
         private void MatchChaseCriteria(Statement statement, Item item, string[] columns, string line)
         {
             // If the first column does not match Chase's Date format for the line, then move to the next line.
