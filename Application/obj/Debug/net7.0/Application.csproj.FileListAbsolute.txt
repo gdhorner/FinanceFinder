@@ -1,0 +1,17 @@
+C:\Projects\FinanceFinder\Application\bin\Debug\net7.0\Application.deps.json
+C:\Projects\FinanceFinder\Application\bin\Debug\net7.0\Application.dll
+C:\Projects\FinanceFinder\Application\bin\Debug\net7.0\Application.pdb
+C:\Projects\FinanceFinder\Application\bin\Debug\net7.0\Domain.dll
+C:\Projects\FinanceFinder\Application\bin\Debug\net7.0\Persistence.dll
+C:\Projects\FinanceFinder\Application\bin\Debug\net7.0\Domain.pdb
+C:\Projects\FinanceFinder\Application\bin\Debug\net7.0\Persistence.pdb
+C:\Projects\FinanceFinder\Application\obj\Debug\net7.0\Application.csproj.AssemblyReference.cache
+C:\Projects\FinanceFinder\Application\obj\Debug\net7.0\Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\FinanceFinder\Application\obj\Debug\net7.0\Application.AssemblyInfoInputs.cache
+C:\Projects\FinanceFinder\Application\obj\Debug\net7.0\Application.AssemblyInfo.cs
+C:\Projects\FinanceFinder\Application\obj\Debug\net7.0\Application.csproj.CoreCompileInputs.cache
+C:\Projects\FinanceFinder\Application\obj\Debug\net7.0\Application.csproj.CopyComplete
+C:\Projects\FinanceFinder\Application\obj\Debug\net7.0\Application.dll
+C:\Projects\FinanceFinder\Application\obj\Debug\net7.0\refint\Application.dll
+C:\Projects\FinanceFinder\Application\obj\Debug\net7.0\Application.pdb
+C:\Projects\FinanceFinder\Application\obj\Debug\net7.0\ref\Application.dll
