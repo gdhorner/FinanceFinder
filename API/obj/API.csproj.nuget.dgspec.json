@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projects\\FinanceFinder\\api\\API.csproj": {}
+    "C:\\Projects\\FinanceFinder\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Projects\\FinanceFinder\\api\\API.csproj": {
+    "C:\\Projects\\FinanceFinder\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\FinanceFinder\\api\\API.csproj",
+        "projectUniqueName": "C:\\Projects\\FinanceFinder\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Projects\\FinanceFinder\\api\\API.csproj",
+        "projectPath": "C:\\Projects\\FinanceFinder\\API\\API.csproj",
         "packagesPath": "C:\\Users\\Gavin\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\FinanceFinder\\api\\obj\\",
+        "outputPath": "C:\\Projects\\FinanceFinder\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Gavin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -232,6 +232,12 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[7.0.12, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
