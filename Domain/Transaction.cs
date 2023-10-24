@@ -5,5 +5,6 @@ namespace Domain
         public string Name { get; set; }
         public DateTime Date { get; set; }
         public double Amount { get; set; }
+        public Boolean IsDisabled {get; set;}
     }
 }

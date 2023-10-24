@@ -12,31 +12,36 @@ namespace Persistence
                     Id = new Guid(),
                     Name = "Walmart",
                     Date = DateTime.UtcNow.AddDays(1),
-                    Amount = 104.23
+                    Amount = 104.23,
+                    IsDisabled = true
                 },
                 new Transaction{
                     Id = new Guid(),
                     Name = "Target",
                     Date = DateTime.UtcNow.AddDays(31),
-                    Amount = 22.23
+                    Amount = 22.23,
+                    IsDisabled = true
                 },
                 new Transaction{
                     Id = new Guid(),
                     Name = "Dunkin",
                     Date = DateTime.UtcNow.AddDays(-23),
                     Amount = 15.27,
+                    IsDisabled = true
                 },
                 new Transaction{
                     Id = new Guid(),
                     Name = "Costco",
                     Date = DateTime.UtcNow.AddDays(4),
                     Amount = 210.23,
+                    IsDisabled = true
                 },
                 new Transaction{
                     Id = new Guid(),
                     Name = "Mcdonalds",
                     Date = DateTime.UtcNow.AddDays(-5),
                     Amount = 13.23,
+                    IsDisabled = true
                 },
             };
 

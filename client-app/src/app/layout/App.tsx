@@ -4,6 +4,7 @@ import NavBar from "./NavBar";
 import TransactionDashboard from "../../features/transactions/dashboard/TransactionDashboard";
 import { useStore } from "../stores/store";
 import { observer } from "mobx-react-lite";
+import LoadingComponent from "./LoadingComponent";
 
 function App() {
   const { transactionStore } = useStore();
@@ -11,6 +12,9 @@ function App() {
   useEffect(() => {
     transactionStore.loadTransactions();
   }, [transactionStore]);
+
+  if (transactionStore.loadingInitial)
+    return (<LoadingComponent content="Loading app."/>)
 
   return (
     <>

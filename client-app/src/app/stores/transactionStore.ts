@@ -39,9 +39,6 @@ export default class TransactionStore {
     this.loadingInitial = state;
   };
   
-  setEditMode = (state: boolean) => {
-    this.editMode = state;
-  }
 
 
   createTransaction = async (transaction: Transaction) => {
@@ -51,7 +48,6 @@ export default class TransactionStore {
       await agent.Transactions.create(transaction);
       runInAction(() => {
         this.transactionRegistry.set(transaction.id, transaction);
-        this.editMode = false;
         this.loading = false;
       });
     } catch (error) {
@@ -68,8 +64,8 @@ export default class TransactionStore {
       await agent.Transactions.update(transaction);
       runInAction(() => {
         this.transactionRegistry.set(transaction.id, transaction);
-        this.editMode = false;
         this.loading = false;
+        console.log(this.transactionRegistry);
       });
     } catch (error) {
       console.log(error);

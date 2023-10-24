@@ -3,5 +3,6 @@ export interface Transaction {
     name: string
     date: string
     amount: number
+    isDisabled: boolean
   }
   

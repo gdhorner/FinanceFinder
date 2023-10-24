@@ -1,8 +1,9 @@
 import { Grid } from "semantic-ui-react";
 import TransactionList from "./TransactionList";
+import { observer } from "mobx-react-lite";
 
 
-export default function TransactionDashboard() {
+export default observer(function TransactionDashboard() {
 
   return (
     <Grid>
@@ -11,4 +12,4 @@ export default function TransactionDashboard() {
       </Grid.Column>
     </Grid>
   );
-}
+})
