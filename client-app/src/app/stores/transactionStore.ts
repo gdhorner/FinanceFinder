@@ -24,7 +24,7 @@ export default class TransactionStore {
       const transactions = await agent.Transactions.list();
       runInAction(() => {
         transactions.forEach((transaction) => {
-            transaction.date = transaction.date.split("T")[0];
+          transaction.date = transaction.date.split("T")[0];
           this.transactionRegistry.set(transaction.id, transaction);
         });
       });
@@ -38,8 +38,6 @@ export default class TransactionStore {
   setLoadingInitial = (state: boolean) => {
     this.loadingInitial = state;
   };
-  
-
 
   createTransaction = async (transaction: Transaction) => {
     this.loading = true;
@@ -88,6 +86,27 @@ export default class TransactionStore {
       runInAction(() => {
         this.loading = false;
       });
+    }
+  };
+
+  // This might need to be extracted somewhere else.
+  importStatement = async (file: File) => {
+    const fileContent = await file.text();
+    let fileArray = fileContent.split("\n");
+
+    for (let index in fileArray) {
+      let lineArray = fileArray[index].split(",");
+      if (lineArray[6] === "") {
+        let transaction = {
+          id: "",
+          name: lineArray[3],
+          date: lineArray[0],
+          note: "",
+          amount: +lineArray[5],
+          isDisabled: true,
+        };
+        this.createTransaction(transaction);
+      }
     }
   };
 }
