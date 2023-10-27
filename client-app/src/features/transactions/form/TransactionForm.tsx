@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Button, Table } from "semantic-ui-react";
-import { useStore } from "../../../../app/stores/store";
+import { useStore } from "../../../app/stores/store";
 import { ChangeEvent, useState } from "react";
 
 export default observer(function TransactionForm() {

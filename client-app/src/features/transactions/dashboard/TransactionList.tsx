@@ -8,7 +8,7 @@ import {
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import { ChangeEvent, FormEvent, SyntheticEvent, useState } from "react";
-import TransactionForm from "./form/TransactionForm";
+import TransactionForm from "../form/TransactionForm";
 import { Transaction } from "../../../app/models/transaction";
 
 export default observer(function TransactionList() {

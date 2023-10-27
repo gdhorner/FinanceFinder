@@ -1,27 +1,26 @@
-import { useEffect} from "react";
 import { Container,} from "semantic-ui-react";
 import NavBar from "./NavBar";
-import TransactionDashboard from "../../features/transactions/dashboard/TransactionDashboard";
-import { useStore } from "../stores/store";
 import { observer } from "mobx-react-lite";
-import LoadingComponent from "./LoadingComponent";
+import { ToastContainer } from "react-toastify";
+import { Outlet, useLocation } from "react-router-dom";
+import HomePage from "../../features/transactions/home/HomePage";
 
 function App() {
-  const { transactionStore } = useStore();
-
-  useEffect(() => {
-    transactionStore.loadTransactions();
-  }, [transactionStore]);
-
-  if (transactionStore.loadingInitial)
-    return (<LoadingComponent content="Loading app."/>)
+  const location = useLocation();
 
   return (
     <>
-      <NavBar />
-      <Container style={{marginTop: '7em'}}>
-        <TransactionDashboard />
-      </Container>
+    <ToastContainer position='bottom-right' hideProgressBar theme='colored' />
+      {location.pathname === "/" ? (
+        <HomePage />
+      ) : (
+        <>
+          <NavBar />
+          <Container style={{ marginTop: "7em" }}>
+            <Outlet />
+          </Container>
+        </>
+      )}
     </>
   );
 }

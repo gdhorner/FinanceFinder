@@ -4,43 +4,37 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    
     public class TransactionsController : BaseApiController
     {
-        [HttpGet] //api/transactions
-        public async Task<ActionResult<List<Transaction>>> GetTransactions(){
-            return await Mediator.Send(new List.Query());
+        [HttpGet]
+        public async Task<IActionResult> GetTransactions()
+        {
+            return HandleResult(await Mediator.Send(new List.Query()));
         }
 
-        [HttpGet("{id}")] //api/transactions/{id}
-        public async Task<ActionResult<Transaction>> GetTransaction(Guid id){
-            return await Mediator.Send(new Details.Query{ID = id});
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTransaction(Guid id)
+        {
+            return HandleResult(await Mediator.Send(new Details.Query { Id = id }));
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateTransaction(Transaction transaction)
         {
-            await Mediator.Send(new Create.Command {Transaction = transaction});
-
-            return Ok();
+            return HandleResult(await Mediator.Send(new Create.Command { Transaction = transaction }));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditTransaction(Guid id, Transaction transaction)
+        public async Task<IActionResult> Edit(Guid id, Transaction transaction)
         {
             transaction.Id = id;
-            await Mediator.Send(new Edit.Command {Transaction = transaction});
-
-            return Ok();
+            return HandleResult(await Mediator.Send(new Edit.Command { Transaction = transaction }));
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTransaction(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            await Mediator.Send(new Delete.Command {Id = id});
-
-            return Ok();
+            return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
         }
-        
     }
 }

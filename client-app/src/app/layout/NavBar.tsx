@@ -1,6 +1,7 @@
-import { ChangeEvent, SyntheticEvent, useRef, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useRef } from "react";
 import { Button, Container, Menu } from "semantic-ui-react";
 import { useStore } from "../stores/store";
+import { NavLink } from "react-router-dom";
 
 export default function NavBar() {
   const { transactionStore } = useStore();
@@ -40,6 +41,7 @@ export default function NavBar() {
             onChange={handleOnChange}
           />
         </Menu.Item>
+        <Menu.Item as={NavLink} to="/errors" name='Errors'/>
       </Container>
     </Menu>
   );
