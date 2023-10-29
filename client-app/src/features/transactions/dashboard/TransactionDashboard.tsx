@@ -6,11 +6,12 @@ import { useEffect } from "react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 export default observer(function TransactionDashboard() {
-  const { transactionStore } = useStore();
+  const { transactionStore, accountStore } = useStore();
 
   useEffect(() => {
     transactionStore.loadTransactions();
-  }, [transactionStore]);
+    accountStore.loadAccounts();
+  }, [transactionStore, accountStore]);
 
   if (transactionStore.loadingInitial)
     return <LoadingComponent content="Loading app." />;

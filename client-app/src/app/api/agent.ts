@@ -3,6 +3,7 @@ import { Transaction } from '../models/transaction';
 import { toast } from 'react-toastify';
 import { store } from '../stores/store';
 import { router } from '../router/Routes';
+import { Account } from '../models/account';
 
 
 const sleep = (delay: number) => {
@@ -69,8 +70,16 @@ const Transactions = {
     delete: (id: string) => requests.del(`/transactions/${id}`)
 }
 
+const Accounts = {
+    list: () => requests.get<Account[]>('/accounts'),
+    create: (account: Account) => requests.post('/accounts', account),
+    update: (account: Account) => requests.put(`/accounts/${account.id}`, account),
+    delete: (id: string) => requests.del(`/accounts/${id}`)
+}
+
 const agent = {
-    Transactions
+    Transactions,
+    Accounts
 }
 
 export default agent;

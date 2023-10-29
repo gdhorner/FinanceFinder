@@ -1,14 +1,16 @@
-import { ChangeEvent, SyntheticEvent, useRef } from "react";
+import { ChangeEvent, useRef } from "react";
 import { Button, Container, Menu } from "semantic-ui-react";
 import { useStore } from "../stores/store";
 import { NavLink } from "react-router-dom";
+import AccountList from "../../features/accounts/AccountList";
+import { Account } from "../models/account";
 
 export default function NavBar() {
-  const { transactionStore } = useStore();
+  const { transactionStore, accountStore } = useStore();
   const { importStatement } = transactionStore;
   const inputFile = useRef<HTMLInputElement | null>(null);
-
-  function handleClick(e: SyntheticEvent<HTMLButtonElement>) {
+  const { accountArr } = accountStore;
+  function handleClick() {
     inputFile.current?.click();
   }
 
@@ -29,8 +31,8 @@ export default function NavBar() {
           <Button
             positive
             content="Import Statement"
-            onClick={(e) => {
-              handleClick(e);
+            onClick={() => {
+              handleClick();
             }}
           />
           <input
@@ -42,6 +44,9 @@ export default function NavBar() {
           />
         </Menu.Item>
         <Menu.Item as={NavLink} to="/errors" name='Errors'/>
+        {accountArr.map((account: Account) => (
+          <Menu.Item styles={{color: 'red'}}key={account.id}>{account.name}</Menu.Item>
+      ))}
       </Container>
     </Menu>
   );

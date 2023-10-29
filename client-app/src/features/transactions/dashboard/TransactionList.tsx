@@ -1,13 +1,11 @@
 import {
   Button,
-  Checkbox,
-  CheckboxProps,
   Segment,
   Table,
 } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
-import { ChangeEvent, FormEvent, SyntheticEvent, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useState } from "react";
 import TransactionForm from "../form/TransactionForm";
 import { Transaction } from "../../../app/models/transaction";
 
