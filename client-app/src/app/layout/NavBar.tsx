@@ -3,13 +3,13 @@ import { Button, Container, Menu } from "semantic-ui-react";
 import { useStore } from "../stores/store";
 import { NavLink } from "react-router-dom";
 import AccountList from "../../features/accounts/AccountList";
-import { Account } from "../models/account";
+import AccountForm from "../../features/accounts/AddAccountModal";
 
 export default function NavBar() {
-  const { transactionStore, accountStore } = useStore();
+  const { transactionStore } = useStore();
   const { importStatement } = transactionStore;
   const inputFile = useRef<HTMLInputElement | null>(null);
-  const { accountArr } = accountStore;
+
   function handleClick() {
     inputFile.current?.click();
   }
@@ -25,8 +25,9 @@ export default function NavBar() {
   return (
     <Menu inverted fixed="left" vertical>
       <Container>
-        <Menu.Item header>Finance Finder</Menu.Item>
-        <Menu.Item name="Transactions" />
+        <Menu.Item as={NavLink} to="/" header>
+          Finance Finder
+        </Menu.Item>
         <Menu.Item>
           <Button
             positive
@@ -43,10 +44,17 @@ export default function NavBar() {
             onChange={handleOnChange}
           />
         </Menu.Item>
-        <Menu.Item as={NavLink} to="/errors" name='Errors'/>
-        {accountArr.map((account: Account) => (
-          <Menu.Item styles={{color: 'red'}}key={account.id}>{account.name}</Menu.Item>
-      ))}
+        <Menu.Item
+          as={NavLink}
+          to="/transactions/allaccounts"
+          name="All Accounts"
+        />
+        <Menu.Item>
+          <AccountList />
+        </Menu.Item>
+        <Menu.Item>
+          <AccountForm />
+        </Menu.Item>
       </Container>
     </Menu>
   );

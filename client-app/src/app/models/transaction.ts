@@ -1,7 +1,7 @@
 export interface Transaction {
     id: string
     accountId: string
-    date: string
+    date: Date | null;
     name: string
     note: string
     category: string

@@ -1,31 +1,46 @@
-import {
-  Button,
-  Segment,
-  Table,
-} from "semantic-ui-react";
+import { Button, Segment, Table } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import TransactionForm from "../form/TransactionForm";
 import { Transaction } from "../../../app/models/transaction";
+import DatePicker from "react-datepicker";
 
-export default observer(function TransactionList() {
+interface Props {
+  AccountId: string | undefined;
+}
+
+export default observer(function TransactionList({ AccountId }: Props) {
   const { transactionStore } = useStore();
-  const { transactionsByDate, deleteTransaction, loading, updateTransaction } =
-    transactionStore;
+  const {
+    transactionRegistry,
+    deleteTransaction,
+    loading,
+    updateTransaction
+    
+  } = transactionStore;
+
+  let transactionsArr;
+
+  if(AccountId){
+    transactionsArr = Array.from(transactionRegistry.values()).filter((t: Transaction) => t.accountId === AccountId)
+  } else {
+    transactionsArr = Array.from(transactionRegistry.values())
+  }
 
   const [deleteTarget, setDeleteTarget] = useState("");
-  const [updateTarget, setUpdateTarget] = useState("")
+  const [updateTarget, setUpdateTarget] = useState("");
 
-  const initialState = {
+  const [transaction, setTransaction] = useState<Transaction>({
     id: "",
+    accountId: "",
+    date: new Date(),
     name: "",
-    date: "",
+    note: "",
+    category: "",
     amount: 0,
     isDisabled: true,
-  };
-
-  const [transaction, setTransaction] = useState(initialState);
+  });
 
   function handleTransactionDelete(
     e: SyntheticEvent<HTMLButtonElement>,
@@ -45,6 +60,14 @@ export default observer(function TransactionList() {
     updateTransaction(transaction);
   }
 
+  function handleDateChange(
+    date: Date | null,
+    e: SyntheticEvent<any, Event> | undefined,
+    t: Transaction
+  ) {
+    setTransaction({ ...transaction, date: date });
+  }
+
   return (
     <Segment>
       <Table textAlign="left" verticalAlign="middle" striped color="purple">
@@ -53,19 +76,22 @@ export default observer(function TransactionList() {
             <Table.HeaderCell>Date</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Note</Table.HeaderCell>
+            <Table.HeaderCell>Category</Table.HeaderCell>
             <Table.HeaderCell>Amount</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
-          {transactionsByDate.map((transaction) => (
+          {transactionsArr.map((transaction) => (
             <Table.Row key={transaction.id}>
               <Table.Cell>
-                <input
+                <DatePicker
                   name="date"
-                  placeholder={transaction.date.split("T")[0]}
-                  onChange={(e) => handleInputChange(e, transaction)}
+                  dateFormat="MM-dd-yyyy"
+                  placeholderText="Date"
+                  selected={new Date(transaction.date!)}
+                  onChange={(date, e) => handleDateChange(date, e, transaction)}
                 />
               </Table.Cell>
               <Table.Cell>
@@ -78,6 +104,13 @@ export default observer(function TransactionList() {
               <Table.Cell>
                 <input
                   name="note"
+                  placeholder=""
+                  onChange={(e) => handleInputChange(e, transaction)}
+                />
+              </Table.Cell>
+              <Table.Cell>
+                <input
+                  name="category"
                   placeholder=""
                   onChange={(e) => handleInputChange(e, transaction)}
                 />

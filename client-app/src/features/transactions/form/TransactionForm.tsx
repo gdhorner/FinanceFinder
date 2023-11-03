@@ -2,20 +2,24 @@ import { observer } from "mobx-react-lite";
 import { Button, Table } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 import { ChangeEvent, useState } from "react";
+import { Transaction } from "../../../app/models/transaction";
+import DatePicker from 'react-datepicker';
 
 export default observer(function TransactionForm() {
   const { transactionStore } = useStore();
 
   const { createTransaction, loading } = transactionStore;
-  const initialState = {
+
+  const [transaction, setTransaction] = useState<Transaction>({
     id: "",
+    accountId: "",
+    date: null,
     name: "",
-    date: "",
+    note: "",
+    category: "",
     amount: 0,
     isDisabled: true,
-  };
-
-  const [transaction, setTransaction] = useState(initialState);
+  });
 
   function handleAdd() {
     createTransaction(transaction);
@@ -28,14 +32,18 @@ export default observer(function TransactionForm() {
     setTransaction({ ...transaction, [name]: value });
   }
 
+  function handleDateChange(date: Date | null): void {
+    setTransaction({ ...transaction, date: date });
+  }
+
   return (
     <Table.Row>
       <Table.Cell>
-        <input
+        <DatePicker
           name="date"
-          placeholder="Date"
-          required
-          onChange={handleInputChange}
+          placeholderText="Date"
+          selected={transaction.date}
+          onChange={(date) => handleDateChange(date)}
         />
       </Table.Cell>
       <Table.Cell>
@@ -48,6 +56,13 @@ export default observer(function TransactionForm() {
       </Table.Cell>
       <Table.Cell>
         <input name="note" placeholder="Note" onChange={handleInputChange} />
+      </Table.Cell>
+      <Table.Cell>
+        <input
+          name="category"
+          placeholder="Category"
+          onChange={handleInputChange}
+        />
       </Table.Cell>
       <Table.Cell>
         <input

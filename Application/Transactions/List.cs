@@ -22,7 +22,6 @@ namespace Application.Transactions
             public async Task<Result<List<Transaction>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 return Result<List<Transaction>>.Success(await _context.Transactions.ToListAsync());
-
             }
         }
     }

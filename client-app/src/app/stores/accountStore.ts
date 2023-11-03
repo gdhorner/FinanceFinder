@@ -5,7 +5,7 @@ import { Account } from "../models/account";
 
 export default class AccountStore {
   accountRegistry = new Map<string, Account>();
-
+  activeAccountId = '';
 
   constructor() {
     makeAutoObservable(this);
@@ -18,7 +18,6 @@ export default class AccountStore {
   loadAccounts = async () => {
     try {
       const accounts = await agent.Accounts.list();
-      console.log(accounts);
       runInAction(() => {
         accounts.forEach((account) => {
             this.accountRegistry.set(account.id, account)
@@ -30,6 +29,7 @@ export default class AccountStore {
   };
 
   createAccount = async (account: Account) => {
+    console.log(account)
     account.id = uuid();
     try {
       await agent.Accounts.create(account);
@@ -56,4 +56,8 @@ export default class AccountStore {
       console.log(error);
     }
   };
+
+  setCurrentAccount = async (id: string) => {
+    this.activeAccountId = id;
+  }
 }

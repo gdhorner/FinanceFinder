@@ -10,7 +10,8 @@ export const routes: RouteObject[] = [
       path: "/",
       element: <App />,
       children: [
-        { path: "transactions", element: <TransactionDashboard/> },
+        { path: "transactions/:accountId", element: <TransactionDashboard key="single"/> },
+        { path: "transactions/allaccounts", element: <TransactionDashboard key="all"/> },
           { path: "errors", element: <TestErrors /> },
           { path: "not-found", element: <NotFound /> },
           { path: "server-error", element: <ServerError /> },

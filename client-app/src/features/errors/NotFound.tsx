@@ -10,7 +10,7 @@ export default function NotFound() {
         for!
       </Header>
       <Segment.Inline>
-        <Button as={Link} to="/transactions">
+        <Button as={Link} to="/transactions/allaccounts">
           Return to transactions page.
         </Button>
       </Segment.Inline>

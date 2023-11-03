@@ -13,18 +13,11 @@ export default class TransactionStore {
     makeAutoObservable(this);
   }
 
-  get transactionsByDate() {
-    return Array.from(this.transactionRegistry.values()).sort(
-      (a, b) => Date.parse(a.date) - Date.parse(b.date)
-    );
-  }
-
   loadTransactions = async () => {
     try {
       const transactions = await agent.Transactions.list();
       runInAction(() => {
         transactions.forEach((transaction) => {
-          transaction.date = transaction.date.split("T")[0];
           this.transactionRegistry.set(transaction.id, transaction);
         });
       });
@@ -97,11 +90,14 @@ export default class TransactionStore {
     for (let index in fileArray) {
       let lineArray = fileArray[index].split(",");
       if (lineArray[6] === "") {
-        let transaction = {
+        let date: Date = new Date(lineArray[0].split("T")[0]);
+        let transaction: Transaction = {
           id: "",
+          accountId: "",
+          date: date,
           name: lineArray[3],
-          date: lineArray[0],
           note: "",
+          category: "",
           amount: +lineArray[5],
           isDisabled: true,
         };
