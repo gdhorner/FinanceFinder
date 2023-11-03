@@ -83,7 +83,7 @@ export default class TransactionStore {
   };
 
   // This might need to be extracted somewhere else.
-  importStatement = async (file: File) => {
+  importStatement = async (file: File, accountId: string) => {
     const fileContent = await file.text();
     let fileArray = fileContent.split("\n");
 
@@ -93,7 +93,7 @@ export default class TransactionStore {
         let date: Date = new Date(lineArray[0].split("T")[0]);
         let transaction: Transaction = {
           id: "",
-          accountId: "",
+          accountId: accountId,
           date: date,
           name: lineArray[3],
           note: "",

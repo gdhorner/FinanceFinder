@@ -7,33 +7,26 @@ import { Transaction } from "../../../app/models/transaction";
 import DatePicker from "react-datepicker";
 
 interface Props {
-  AccountId: string | undefined;
+  transactions: Transaction[]
+  accountId: string | undefined
 }
 
-export default observer(function TransactionList({ AccountId }: Props) {
+export default observer(function TransactionList({ transactions, accountId }: Props) {
   const { transactionStore } = useStore();
   const {
-    transactionRegistry,
     deleteTransaction,
     loading,
     updateTransaction
     
   } = transactionStore;
 
-  let transactionsArr;
-
-  if(AccountId){
-    transactionsArr = Array.from(transactionRegistry.values()).filter((t: Transaction) => t.accountId === AccountId)
-  } else {
-    transactionsArr = Array.from(transactionRegistry.values())
-  }
 
   const [deleteTarget, setDeleteTarget] = useState("");
   const [updateTarget, setUpdateTarget] = useState("");
 
   const [transaction, setTransaction] = useState<Transaction>({
     id: "",
-    accountId: "",
+    accountId: accountId!,
     date: new Date(),
     name: "",
     note: "",
@@ -83,7 +76,7 @@ export default observer(function TransactionList({ AccountId }: Props) {
         </Table.Header>
 
         <Table.Body>
-          {transactionsArr.map((transaction) => (
+          {transactions.map((transaction) => (
             <Table.Row key={transaction.id}>
               <Table.Cell>
                 <DatePicker
@@ -140,7 +133,8 @@ export default observer(function TransactionList({ AccountId }: Props) {
               </Table.Cell>
             </Table.Row>
           ))}
-          <TransactionForm />
+          {accountId && 
+          <TransactionForm accountId = {accountId}/>}
         </Table.Body>
       </Table>
     </Segment>

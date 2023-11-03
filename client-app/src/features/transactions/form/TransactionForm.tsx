@@ -5,14 +5,18 @@ import { ChangeEvent, useState } from "react";
 import { Transaction } from "../../../app/models/transaction";
 import DatePicker from 'react-datepicker';
 
-export default observer(function TransactionForm() {
+interface Props{
+  accountId: string | undefined
+}
+
+export default observer(function TransactionForm({accountId}: Props) {
   const { transactionStore } = useStore();
 
   const { createTransaction, loading } = transactionStore;
 
   const [transaction, setTransaction] = useState<Transaction>({
     id: "",
-    accountId: "",
+    accountId: accountId!,
     date: null,
     name: "",
     note: "",

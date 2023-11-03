@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, useEffect, useRef } from "react";
 import { Button, Container, Menu } from "semantic-ui-react";
 import { useStore } from "../stores/store";
 import { NavLink } from "react-router-dom";
@@ -6,9 +6,13 @@ import AccountList from "../../features/accounts/AccountList";
 import AccountForm from "../../features/accounts/AddAccountModal";
 
 export default function NavBar() {
-  const { transactionStore } = useStore();
+  const { transactionStore, accountStore } = useStore();
   const { importStatement } = transactionStore;
   const inputFile = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    accountStore.loadAccounts();
+  }, [accountStore.accountRegistry]);
 
   function handleClick() {
     inputFile.current?.click();
@@ -19,7 +23,7 @@ export default function NavBar() {
   ): Promise<void> {
     if (!event.target.files) return;
     let file = event.target.files[0];
-    importStatement(file);
+    importStatement(file, accountStore.currentAccount.id);
   }
 
   return (
