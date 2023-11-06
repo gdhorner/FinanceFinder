@@ -1,8 +1,8 @@
 namespace Domain
 {
     public class Transaction{
-        public string Id { get; set; }
-        public string AccountId { get; set; }
+        public Guid Id { get; set; }
+        public Guid AccountId { get; set; }
         public DateTime Date { get; set; }
         public string Name { get; set; }
         public string Note { get; set; }

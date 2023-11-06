@@ -1,4 +1,4 @@
-import { Button, Segment, Table } from "semantic-ui-react";
+import { Button, Icon, Segment, Table } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
@@ -7,19 +7,16 @@ import { Transaction } from "../../../app/models/transaction";
 import DatePicker from "react-datepicker";
 
 interface Props {
-  transactions: Transaction[]
-  accountId: string | undefined
+  transactions: Transaction[];
+  accountId: string | undefined;
 }
 
-export default observer(function TransactionList({ transactions, accountId }: Props) {
+export default observer(function TransactionList({
+  transactions,
+  accountId,
+}: Props) {
   const { transactionStore } = useStore();
-  const {
-    deleteTransaction,
-    loading,
-    updateTransaction
-    
-  } = transactionStore;
-
+  const { deleteTransaction, loading, updateTransaction } = transactionStore;
 
   const [deleteTarget, setDeleteTarget] = useState("");
   const [updateTarget, setUpdateTarget] = useState("");
@@ -35,11 +32,8 @@ export default observer(function TransactionList({ transactions, accountId }: Pr
     isDisabled: true,
   });
 
-  function handleTransactionDelete(
-    e: SyntheticEvent<HTMLButtonElement>,
-    id: string
-  ) {
-    setDeleteTarget(e.currentTarget.name);
+  function handleTransactionDelete(id: string) {
+    setDeleteTarget(id);
     deleteTransaction(id);
   }
 
@@ -62,7 +56,7 @@ export default observer(function TransactionList({ transactions, accountId }: Pr
   }
 
   return (
-    <Segment>
+    <Segment >
       <Table textAlign="left" verticalAlign="middle" striped color="purple">
         <Table.Header>
           <Table.Row>
@@ -116,25 +110,17 @@ export default observer(function TransactionList({ transactions, accountId }: Pr
                 />
               </Table.Cell>
               <Table.Cell>
-                <Button
-                  name={transaction.id}
-                  loading={loading && updateTarget === transaction.id}
-                  color="grey"
-                  content="Update"
-                  onClick={(e) => handleClick(e)}
-                />
-                <Button
-                  name={transaction.id}
+                <Icon
+                  name="x"
+                  className={transaction.id}
+                  link
+                  onClick={() => handleTransactionDelete(transaction.id)}
                   loading={loading && deleteTarget === transaction.id}
-                  negative
-                  content="Delete"
-                  onClick={(e) => handleTransactionDelete(e, transaction.id)}
                 />
               </Table.Cell>
             </Table.Row>
           ))}
-          {accountId && 
-          <TransactionForm accountId = {accountId}/>}
+          {accountId && <TransactionForm accountId={accountId} />}
         </Table.Body>
       </Table>
     </Segment>

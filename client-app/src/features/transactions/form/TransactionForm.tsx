@@ -1,20 +1,22 @@
 import { observer } from "mobx-react-lite";
-import { Button, Table } from "semantic-ui-react";
+import { Button, Dropdown, DropdownProps, Table } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import { Transaction } from "../../../app/models/transaction";
-import DatePicker from 'react-datepicker';
+import DatePicker from "react-datepicker";
+import { Account } from "../../../app/models/account";
+import CategoryDropdown from "../CategoryDropdown";
 
-interface Props{
-  accountId: string | undefined
+interface Props {
+  accountId: string | undefined;
 }
 
-export default observer(function TransactionForm({accountId}: Props) {
-  const { transactionStore } = useStore();
+export default observer(function TransactionForm({ accountId }: Props) {
+  const { accountStore, transactionStore } = useStore();
 
   const { createTransaction, loading } = transactionStore;
 
-  const [transaction, setTransaction] = useState<Transaction>({
+  const initialTransaction = {
     id: "",
     accountId: accountId!,
     date: null,
@@ -23,10 +25,25 @@ export default observer(function TransactionForm({accountId}: Props) {
     category: "",
     amount: 0,
     isDisabled: true,
-  });
+  };
+
+  const [transaction, setTransaction] =
+    useState<Transaction>(initialTransaction);
+  const [account, setAccount] = useState<Account>();
+
+  useEffect(() => {
+    let account = accountStore.accountRegistry.get(accountId!);
+    setAccount(account);
+  }, []);
 
   function handleAdd() {
-    createTransaction(transaction);
+    createTransaction(transaction).then(() => {
+      let transactionAmount = transaction.amount;
+      let acc = account;
+      acc!.balance += transactionAmount;
+      setAccount(acc);
+      setTransaction(initialTransaction);
+    });
   }
 
   function handleInputChange(
@@ -40,6 +57,17 @@ export default observer(function TransactionForm({accountId}: Props) {
     setTransaction({ ...transaction, date: date });
   }
 
+  function handleDropdown(
+    event: SyntheticEvent<HTMLElement, Event>,
+    data: DropdownProps
+  ): void {
+    let category = data.value?.toString();
+    if (category) {
+      setTransaction({ ...transaction, category: category });
+    }
+    console.log(data.value);
+  }
+
   return (
     <Table.Row>
       <Table.Cell>
@@ -48,6 +76,7 @@ export default observer(function TransactionForm({accountId}: Props) {
           placeholderText="Date"
           selected={transaction.date}
           onChange={(date) => handleDateChange(date)}
+          dateFormat="MM-dd-yyyy"
         />
       </Table.Cell>
       <Table.Cell>
@@ -62,10 +91,9 @@ export default observer(function TransactionForm({accountId}: Props) {
         <input name="note" placeholder="Note" onChange={handleInputChange} />
       </Table.Cell>
       <Table.Cell>
-        <input
-          name="category"
-          placeholder="Category"
-          onChange={handleInputChange}
+        <CategoryDropdown
+          categorySelection={transaction.category}
+          handleDropdown={handleDropdown}
         />
       </Table.Cell>
       <Table.Cell>

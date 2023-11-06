@@ -21,7 +21,7 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(Guid id, Account account)
         {
-            account.Id = id.ToString();
+            account.Id = id;
             return HandleResult(await Mediator.Send(new Edit.Command { Account = account }));
         }
 

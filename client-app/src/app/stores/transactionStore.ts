@@ -3,11 +3,18 @@ import { Transaction } from "../models/transaction";
 import agent from "../api/agent";
 import { v4 as uuid } from "uuid";
 
+interface Category{
+  key: string,
+  text: string,
+  value: string
+}
+
 export default class TransactionStore {
   transactionRegistry = new Map<string, Transaction>();
   editMode = false;
   loading = false;
   loadingInitial = true;
+  transactionCategories : Category[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -19,6 +26,7 @@ export default class TransactionStore {
       runInAction(() => {
         transactions.forEach((transaction) => {
           this.transactionRegistry.set(transaction.id, transaction);
+          this.loadCategories()
         });
       });
       this.setLoadingInitial(false);
@@ -104,5 +112,25 @@ export default class TransactionStore {
         this.createTransaction(transaction);
       }
     }
+  };
+
+  loadCategories = () => {
+    let category: Category;
+    runInAction(() => {
+      this.transactionRegistry.forEach((transaction) => {
+        const found = this.transactionCategories.find(
+          (category) => category.key === transaction.category
+        );
+        if(!found){
+          category = {
+            key: transaction.category,
+            text: transaction.category,
+            value: transaction.category,
+          }
+          this.transactionCategories.push(category);
+        }
+      });
+      console.log(category);
+    });
   };
 }

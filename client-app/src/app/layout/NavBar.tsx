@@ -12,7 +12,7 @@ export default function NavBar() {
 
   useEffect(() => {
     accountStore.loadAccounts();
-  }, [accountStore.accountRegistry]);
+  }, [accountStore]);
 
   function handleClick() {
     inputFile.current?.click();

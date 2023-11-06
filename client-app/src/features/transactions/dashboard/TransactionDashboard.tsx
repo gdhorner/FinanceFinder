@@ -1,10 +1,10 @@
-import { Button, Grid, GridRow, Header } from "semantic-ui-react";
+import { Button, Grid, GridRow, Header, Icon } from "semantic-ui-react";
 import TransactionList from "./TransactionList";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../../app/stores/store";
 import { useEffect, useState } from "react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Transaction } from "../../../app/models/transaction";
 
 export default observer(function TransactionDashboard() {
@@ -14,6 +14,8 @@ export default observer(function TransactionDashboard() {
   const { transactionRegistry, deleteTransaction } = transactionStore;
   const { accountRegistry, setCurrentAccount, deleteAccount, currentAccount } =
     accountStore;
+
+  const navigate = useNavigate();
 
   let transactionsArr: Transaction[];
 
@@ -37,20 +39,30 @@ export default observer(function TransactionDashboard() {
     transactionsArr.forEach((transaction) => {
       deleteTransaction(transaction.id);
     });
-    deleteAccount(currentAccount.id);
+    deleteAccount(currentAccount.id).then(() => {
+      setCurrentAccount({ id: "", name: "", type: "", balance: 0});
+      navigate("/transactions/allaccounts");
+    });
   }
 
   if (transactionStore.loadingInitial)
     return <LoadingComponent content="Loading app." />;
 
   return (
-    <Grid>
+    <Grid width='16'>
+      {accountId && (
+        <GridRow>
+          <Header as="h2">{currentAccount.name}</Header>
+          <Header as="h3">{currentAccount.balance}</Header>
+          <Icon
+                  name="x"
+                  link
+                  onClick={handleClick}
+                />
+        </GridRow>
+      )}
       <GridRow>
-        <Header as="h2">{currentAccount.name}</Header>
-        <Button onClick={handleClick} content="Delete Account" negative />
-      </GridRow>
-      <GridRow>
-        <TransactionList transactions={transactionsArr} accountId = {accountId} />
+        <TransactionList transactions={transactionsArr} accountId={accountId} />
       </GridRow>
     </Grid>
   );

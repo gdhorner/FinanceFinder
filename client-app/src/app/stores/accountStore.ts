@@ -9,6 +9,7 @@ export default class AccountStore {
     id: "",
     name: "",
     type: "",
+    balance: 0
   };
 
   constructor() {
@@ -36,6 +37,9 @@ export default class AccountStore {
     account.id = uuid();
     try {
       await agent.Accounts.create(account);
+      runInAction(() => {
+        this.accountRegistry.set(account.id, account);
+      })
     } catch (error) {
       console.log(error);
     }
@@ -53,6 +57,9 @@ export default class AccountStore {
   deleteAccount = async (id: string) => {
     try {
       await agent.Accounts.delete(id);
+      runInAction(() => {
+        this.accountRegistry.delete(id);
+      });
     } catch (error) {
       console.log(error);
     }
