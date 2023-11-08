@@ -3,9 +3,9 @@ using AutoMapper;
 
 namespace Application.Core
 {
-    public class MappingProfiles : Profile
+    public class MappingTransactions : Profile
     {
-        public MappingProfiles()
+        public MappingTransactions()
         {
             CreateMap<Transaction, Transaction>();
         }

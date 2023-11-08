@@ -1,11 +1,10 @@
 import { observer } from "mobx-react-lite";
-import { Button, Dropdown, DropdownProps, Table } from "semantic-ui-react";
+import { Button, DropdownProps, Table } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import { Transaction } from "../../../app/models/transaction";
 import DatePicker from "react-datepicker";
 import { Account } from "../../../app/models/account";
-import CategoryDropdown from "../CategoryDropdown";
 
 interface Props {
   accountId: string | undefined;

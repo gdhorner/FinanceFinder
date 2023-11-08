@@ -70,7 +70,7 @@ export default observer(function TransactionList({
         </Table.Header>
 
         <Table.Body>
-          {transactions.map((transaction) => (
+          {transactions && transactions.map((transaction) => (
             <Table.Row key={transaction.id}>
               <Table.Cell>
                 <DatePicker

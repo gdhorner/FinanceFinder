@@ -19,24 +19,24 @@ export default observer(function TransactionDashboard() {
 
   let transactionsArr: Transaction[];
 
-  if (accountId) {
-    let account = accountRegistry.get(accountId);
-    transactionsArr = Array.from(transactionRegistry.values()).filter(
-      (t: Transaction) => t.accountId === accountId
-    );
-    if (account) {
-      setCurrentAccount(account);
-    }
-  } else {
-    transactionsArr = Array.from(transactionRegistry.values());
-  }
-
   useEffect(() => {
     transactionStore.loadTransactions();
+    if (accountId) {
+      let account = accountRegistry.get(accountId);
+      transactionsArr = Array.from(transactionRegistry.values()).filter(
+        (t: Transaction) => t.accountId === accountId
+      );
+      if (account) {
+        setCurrentAccount(account);
+      }
+    } else {
+      transactionsArr = Array.from(transactionRegistry.values());
+    }
+    
   }, [transactionStore]);
 
   function handleClick(): void {
-    transactionsArr.forEach((transaction) => {
+    transactionsArr && transactionsArr.forEach((transaction) => {
       deleteTransaction(transaction.id);
     });
     deleteAccount(currentAccount.id).then(() => {
@@ -52,17 +52,17 @@ export default observer(function TransactionDashboard() {
     <Grid width="16">
       {accountId && (
         <>
-          <GridRow className='account' verticalAlign='middle'>
+          <GridRow className='ml-10 justify-self-center'>
             <Header as="h2">{currentAccount.name}</Header>
-            <Icon name="x" link onClick={handleClick} />
+            <Icon  className='pl-4 pt-1' name="x" link onClick={handleClick} />
           </GridRow>
-          <GridRow className='account'>
+          <GridRow className='ml-10'>
             <Header as="h3">{currentAccount.balance}</Header>
           </GridRow>
         </>
       )}
       <GridRow>
-        <TransactionList transactions={transactionsArr} accountId={accountId} />
+        <TransactionList transactions={transactionsArr!} accountId={accountId} />
       </GridRow>
     </Grid>
   );
