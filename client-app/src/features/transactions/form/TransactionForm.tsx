@@ -15,6 +15,7 @@ export default observer(function TransactionForm({ accountId }: Props) {
   const { accountStore, transactionStore } = useStore();
 
   const { createTransaction, loading } = transactionStore;
+  const { updateAccount } = accountStore;
 
   const initialTransaction = {
     id: "",
@@ -29,19 +30,29 @@ export default observer(function TransactionForm({ accountId }: Props) {
 
   const [transaction, setTransaction] =
     useState<Transaction>(initialTransaction);
-  const [account, setAccount] = useState<Account>();
+  const [account, setAccount] = useState<Account>({
+    id: "",
+    name: "",
+    type: "",
+    balance: 0,
+  });
 
   useEffect(() => {
-    let account = accountStore.accountRegistry.get(accountId!);
-    setAccount(account);
-  }, []);
+    if (accountId) {
+      let account = accountStore.accountRegistry.get(accountId!);
+      if (account) {
+        setAccount(account);
+        console.log("set again")
+      }
+    }
+  }, [accountId]);
 
   function handleAdd() {
     createTransaction(transaction).then(() => {
-      let transactionAmount = transaction.amount;
-      let acc = account;
-      acc!.balance += transactionAmount;
-      setAccount(acc);
+      let transactionAmount: number = transaction.amount.valueOf();
+      let acc = {...account, balance: transactionAmount};
+      console.log(acc);
+      updateAccount(acc);
       setTransaction(initialTransaction);
     });
   }
@@ -51,6 +62,13 @@ export default observer(function TransactionForm({ accountId }: Props) {
   ) {
     const { name, value } = event.target;
     setTransaction({ ...transaction, [name]: value });
+  }
+
+  function handleNumberChange(
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const { name, value } = event.target;
+    setTransaction({ ...transaction, [name]: parseFloat(value) });
   }
 
   function handleDateChange(date: Date | null): void {
@@ -91,9 +109,10 @@ export default observer(function TransactionForm({ accountId }: Props) {
         <input name="note" placeholder="Note" onChange={handleInputChange} />
       </Table.Cell>
       <Table.Cell>
-        <CategoryDropdown
-          categorySelection={transaction.category}
-          handleDropdown={handleDropdown}
+        <input
+          name="category"
+          placeholder="Category"
+          onChange={handleInputChange}
         />
       </Table.Cell>
       <Table.Cell>
@@ -101,7 +120,7 @@ export default observer(function TransactionForm({ accountId }: Props) {
           name="amount"
           placeholder="Amount"
           required
-          onChange={handleInputChange}
+          onChange={handleNumberChange}
         />
       </Table.Cell>
       <Table.Cell>

@@ -91,14 +91,14 @@ export default observer(function TransactionList({
               <Table.Cell>
                 <input
                   name="note"
-                  placeholder=""
+                  placeholder={transaction.note}
                   onChange={(e) => handleInputChange(e, transaction)}
                 />
               </Table.Cell>
               <Table.Cell>
                 <input
                   name="category"
-                  placeholder=""
+                  placeholder={transaction.category}
                   onChange={(e) => handleInputChange(e, transaction)}
                 />
               </Table.Cell>

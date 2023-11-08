@@ -130,7 +130,6 @@ export default class TransactionStore {
           this.transactionCategories.push(category);
         }
       });
-      console.log(category);
     });
   };
 }

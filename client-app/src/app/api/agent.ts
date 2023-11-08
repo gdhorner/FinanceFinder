@@ -72,6 +72,7 @@ const Transactions = {
 
 const Accounts = {
     list: () => requests.get<Account[]>('/accounts'),
+    details: (id: string) => requests.get<Account>(`/accounts/${id}`),
     create: (account: Account) => requests.post('/accounts', account),
     update: (account: Account) => requests.put(`/accounts/${account.id}`, account),
     delete: (id: string) => requests.del(`/accounts/${id}`)

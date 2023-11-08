@@ -48,7 +48,9 @@ export default class AccountStore {
   updateAccount = async (account: Account) => {
     try {
       await agent.Accounts.update(account);
-      runInAction(() => {});
+      runInAction(() => {
+        this.accountRegistry.set(account.id, account);
+      })
     } catch (error) {
       console.log(error);
     }
